@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        ChargilyClient client = new ChargilyClient("api_zqT0BbKCxzIyMvyKSS9rwVRHwwhoqjObtOrLDMciXccujZyHZ18owi8QPsXlUZtj");
+      ChargilyClient client = new ChargilyClient("api_zqT0BbKCxzIyMvyKSS9rwVRHwwhoqjObtOrLDMciXccujZyHZ18owi8QPsXlUZtj");
         Invoice invoice = new Invoice(
                 "Chakhoum Ahmed",
                 "rainxh11@gmail.com",
@@ -26,11 +26,27 @@ public class MainActivity extends AppCompatActivity {
                 PaymentMethod.EDAHABIA,
                 "5001",
                 10000.0);
-        try {
-            var response = client.createInvoice(invoice);
-            System.out.println(response.body().checkoutUrl);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+
+        ChargilyCallback<ChargilyResponse> responseCallback = new ChargilyCallback<>() {
+
+            @Override
+            public void onResponse( Call<ChargilyResponse> call, ChargilyResponse response) {
+                // do something on response
+                if (response.isSuccess()) {
+                    response.getStatusCode();
+                    response.getCheckoutUrl();
+                } else {
+                    response.getStatusCode();
+                    response.getErrorBody();
+                }
+            }
+
+            @Override
+            public void onFailure( Call<ChargilyResponse> call,  Throwable t) {
+                // do something on failure
+            }
+        };
+
+        client.submitInvoiceAsync(invoice, responseCallback);
     }
 }
