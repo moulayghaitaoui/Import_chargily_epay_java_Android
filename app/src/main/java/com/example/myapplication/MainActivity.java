@@ -27,8 +27,14 @@ public class MainActivity extends AppCompatActivity {
                 "5001",
                 10000.0);
         try {
-            var response = client.createInvoice(invoice);
-            System.out.println(response.body().checkoutUrl);
+            ChargilyResponse response = client.submitInvoice(invoice);
+            if (response.isSuccess()) {
+                response.getStatusCode();
+                response.getCheckoutUrl();
+            } else {
+                response.getStatusCode();
+                response.getErrorBody();
+            }
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
