@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 
 import chargily.epay.java.*;
-import retrofit2.Call;
+
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,30 +27,18 @@ try {
             "5001",
             10000.0);
 
-    ChargilyCallback<ChargilyResponse> responseCallback = new ChargilyCallback<>() {
-
-
-        @Override
-        public void onResponse(Call call, ChargilyResponse chargilyResponse) {
-            if (chargilyResponse.isSuccess()) {
-                chargilyResponse.getStatusCode();
-                chargilyResponse.getCheckoutUrl();
-            } else {
-                chargilyResponse.getStatusCode();
-                chargilyResponse.getErrorBody();
-            }
+    try {
+        ChargilyResponse response = client.submitInvoice(invoice);
+        if (response.isSuccess()) {
+            response.getStatusCode();
+            response.getCheckoutUrl();
+        } else {
+            response.getStatusCode();
+            response.getErrorBody();
         }
-
-        @Override
-        public void onFailure(Call call, Throwable throwable) {
-
-        }
-
-
-
-    };
-
-    client.submitInvoiceAsync(invoice, responseCallback);
+    } catch (Exception e) {
+        System.out.println(e.getMessage());
+    }
 
 }catch (Exception e){
     System.out.println(e.getMessage().toString());
