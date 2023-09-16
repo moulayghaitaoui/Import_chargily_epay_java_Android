@@ -3,8 +3,10 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import chargily.epay.java.*;
+import retrofit2.Call;
 import retrofit2.Response;
 
 
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toast.makeText(getApplication(),"moulay 6",Toast.LENGTH_SHORT).show();
 
         ChargilyClient client = new ChargilyClient("api_zqT0BbKCxzIyMvyKSS9rwVRHwwhoqjObtOrLDMciXccujZyHZ18owi8QPsXlUZtj");
         Invoice invoice = new Invoice(
@@ -38,5 +41,9 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        Toast.makeText(getApplication(),"moulay 7",Toast.LENGTH_SHORT).show();
+
+
+
     }
 }
